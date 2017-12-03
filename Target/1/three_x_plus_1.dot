@@ -1,0 +1,23 @@
+
+digraph "three_x_plus_1"
+{
+struct1 [label="program"]
+struct2 [label="stmtList"]
+struct3 [label="stmt"]
+struct4 [label="dec"]
+struct5 [label="int"]
+struct4->struct5
+struct6 [label="id"]
+struct7 [label="x"]
+struct6->struct7
+struct4->struct6
+struct3->struct4
+struct2->struct3
+struct8 [label=";"]
+struct2->struct8
+struct9 [label="stmtList"]
+struct10 [label="epsilon"]
+struct9->struct10
+struct2->struct9
+struct1->struct2
+}

@@ -1,0 +1,92 @@
+USE_LR_PARSER
+
+program
+
+(* ====================================== Statements ========= *)
+<program>               ::= <stmtList>                          .
+
+<stmtList> ::= <epsilon>                                        
+            | <stmt> ";" <stmtList>                             .
+
+<epsilon>  ::= .
+
+<stmt> ::= <decAssign> 
+        | <block>
+        | <dec> "=" <expr>
+        | <dec>
+        | <assign>
+        | <conditional> 
+        | <whileLoop> 
+        | <forLoop> 
+        | <prePst> 
+        | <printStmt>                                           .
+
+<dec> ::= "int" id 
+      |  "bool" id                                              .
+
+<assign> ::= id "=" <expr>                                      .
+
+<block> ::= "{" <stmtList> "}"                                  .
+
+<conditional> ::= "if" <expr> "then" <block> 
+                | "if" <expr> "then" <block> "else" <block>     .
+
+<whileLoop> ::= "while" "(" <expr> ")" <block>                  .
+
+<forLoop> ::= "for" "(" <assign> ";" <expr> ";" <increment> ")" <block> .
+
+<increment> ::= <prePost> 
+             | <assign>                                         .
+
+<prePost> ::= "++" id 
+            | id "++" 
+            | "--" id 
+            | id "--"                                           .
+
+<printStmt> ::= "print" "(" <expr> ")"                          .
+
+
+(* ====================================== Expressions ======== *)
+<expr> ::= <disjunction>                                        .
+
+<disjunction> ::= <conjunction> 
+                | <disjunction> "||" <conjunction>              .
+
+<conjunction> ::= <equalitytest> 
+                | <conjunction> "&&" <equalitytest>             .
+
+<equalitytest> ::= <addsub> 
+                | <equalitytest> "<" <addsub> 
+                | <equalitytest> ">" <addsub> 
+                | <equalitytest> ">=" <addsub> 
+                | <equalitytest> "<=" <addsub> 
+                | <equalitytest> "==" <addsub> 
+                | <equalitytest> "!=" <addsub>                  .
+
+<addsub> ::= <multdivmod> 
+            | <addsub> "+" <multdivmod> 
+            | <addsub> "-" <multdivmod>                         .
+
+<multdivmod> ::= <unaryminus> 
+                | <multdivmod> "*" <unaryminus> 
+                | <multdivmod> "div" <unaryminus> 
+                | <multdivmod> "mod" <unaryminus>               .
+
+<unaryminus> ::= <exponent> 
+                | "-" <unaryminus>                              .
+
+<exponent> ::= <notexpr> 
+              | <notexpr> "^" <exponent>                        .
+
+<notexpr> ::= <factor> 
+            | "!" <notexpr>                                     .
+
+<factor> ::= "(" <expr> ")" 
+            |  "|" <expr> "|" 
+            | integer 
+            | boolean 
+            | <ids>                                             .
+
+<ids> ::= id 
+        | <prePost>       
+                                                             .
