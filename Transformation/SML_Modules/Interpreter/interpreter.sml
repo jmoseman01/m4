@@ -1,3 +1,4 @@
+
 (* =========================================================================================================== *)
 structure Interpreter =
 struct
@@ -20,7 +21,6 @@ struct
 (* =========================================================================================================== *)
 fun execute [ programTree ] =
     let
-    
         (* Here is where the TLP representation of a tree is converted to a tree datatype similar to what we discussed in class *)
         val tree0 = Strategic_Values.getTerm programTree
        
@@ -33,11 +33,10 @@ fun execute [ programTree ] =
     in 
     
         (* you may want to output the final model in order to validate that there are no memory leaks in your code *)
-
+                
         print("\n\n\n");
-        print(" ======================================= \n");
+        print(" =================Johary====================== \n");
         (*Model.printModel(result);*)
-        Model.printIdInEnv(result);
         print("\n ======================================= \n");
         print("\n\n\n") 
     end

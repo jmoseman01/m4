@@ -63,43 +63,48 @@ open CONCRETE_REPRESENTATION;
             (3) the second child is a semi-colon   
 *)
 
-fun M(  itree(inode("program",_), 
+(*
+  prog ::= stmtList
+  M([[stmtList1]] , m) = M(stmtList1, m)
+*)
+fun M(  itree(inode("prog",_), 
                 [ 
                     stmtList
                 ] 
-             ), 
+             ),
         m
-    ) = M(stmtList,m)
-  |  M( itree(inode("stmtList",_),
-                    [
-                        stmt,                       (* this is a regular variable in SML and has no other special meaning *)
-                        itree(inode(";",_), [] ),   (* A semi-colon is a leaf node. All leaf nodes have an empty children list. *)                        
-                        stmtList                    (* this is a regular variable in SML and has no other special meaning *) 
-                    ]
-                ),
-           m
-           
-        ) = M( stmtList, M(stmt, m) ) 
-  | M(  itree(inode("stmt",_), 
-                [ 
+    ) = M(stmtList, m)
+  | M( itree(inode("stmtList",_),
+                [
+                    stmt,
+                    itree(inode(";",_), [] ),
+                    stmtList
+                ]
+            ),
+        m       
+    ) = M( stmtList, M(stmt, m))
+  | M( itree(inode("stmtList",_),
+                [
+                    epsilon
+                ]
+            ),
+        m       
+    ) = m
+  | M( itree(inode("stmt",_),
+                [
                     dec
-                ] 
-             ), 
-        m
-    ) = M(dec,m)
-  | M(  itree(inode("dec",_), 
-                [ 
-                    itree(inode("int",_),[]),
+                ]
+            ),
+        m       
+    ) = M(dec, m)
+  | M( itree(inode("dec",_),
+                [
+                    itree(inode("int",_), [] ),                 
                     id
-                ] 
-             ), 
-        m
-    ) = 
-        let
-           val m1=Model.updateEnv(Model.getLeaf(id),Model.INT,0,m)
-        in
-           m1
-        end
+                ]
+            ),
+        m       
+    ) = updateEnv( getLeaf(id), INT, 0, m )
   | M(  itree(inode(x_root,_), children),_) = raise General.Fail("\n\nIn M root = " ^ x_root ^ "\n\n")
   
   | M _ = raise Fail("error in Semantics.M - this should never occur")

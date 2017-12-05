@@ -13,11 +13,7 @@ open CONCRETE_REPRESENTATION;
 *)
 
 
-
-
-
-fun typeCheck( itree(inode("program",_), [ dec1 ] ), m) = m
-  | typeCheck( itree(inode("dec",_), [  ] ), m) = m
+fun typeCheck( itree(inode("prog",_), [ stmt_list ] ), m) = m
   | typeCheck( itree(inode(x_root,_), children),_) = raise General.Fail("\n\nIn typeCheck root = " ^ x_root ^ "\n\n")
   | typeCheck _ = raise Fail("Error in Model.typeCheck - this should never occur")
 

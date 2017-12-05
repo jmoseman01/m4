@@ -1,7 +1,7 @@
 
 digraph "three_x_plus_1"
 {
-struct1 [label="program"]
+struct1 [label="prog"]
 struct2 [label="stmtList"]
 struct3 [label="stmt"]
 struct4 [label="dec"]
