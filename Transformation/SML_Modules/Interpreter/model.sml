@@ -37,6 +37,27 @@ type store = (loc * denotable_value) list
    incremented. *)
 val initialModel = ( []:env, []:store )
 
+
+fun typeToString(t1:types)=if t1=INT then "INT"
+else if t1=BOOL then "BOOL"
+else ""
+
+fun stringDv(Boolean dv)=Bool.toString(dv)
+| stringDv(Integer dv)=Int.toString(dv)
+
+fun printModel(_,[])=() 
+| printModel([],_)=() 
+| printModel((envr as (id1,t1:types,loc1:loc))::env,(storer as (loc2:loc,v1:denotable_value))::store)=
+(
+    print("ENV\n");
+    print("==============\n");
+    print(id1 ^ "\t" ^ typeToString(t1) ^ "\t" ^  Int.toString(loc1) ^ "\n");
+    print("==============\n");
+    print("Store\n");
+    print("==============\n");
+    print(Int.toString(loc2) ^ "\t" ^ stringDv(v1) ^ "\n");
+    print("==============\n")
+);
 (* =========================================================================================================== *)
 
 (********** Update Env **********)
