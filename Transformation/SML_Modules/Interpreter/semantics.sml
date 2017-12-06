@@ -105,6 +105,24 @@ fun M(  itree(inode("prog",_),
             ),
         m       
     ) = updateEnv( getLeaf(id), INT, 0, m )
+    
+    | M( itree(inode("assign",_),
+                [
+                    id,
+                    itree(inode("=",_), [] ),                 
+                    value
+                ]
+            ),
+        m       
+    ) = 
+        let
+            val v = valOf(Int.fromString(getLeaf(value)))
+            val loc=getLoc(accessEnv(getLeaf(id),m))
+            val m1=updateStore((loc,Integer v),m)
+        in
+            m1
+        end
+     
   | M(  itree(inode(x_root,_), children),_) = raise General.Fail("\n\nIn M root = " ^ x_root ^ "\n\n")
   
   | M _ = raise Fail("error in Semantics.M - this should never occur")

@@ -10,6 +10,9 @@ prog
 
 <epsilon>  ::= .
 
-<stmt> ::= <dec>                                           .
+<stmt> ::= <dec>  
+         | <assign>                                        .
 
 <dec> ::= "int" id                                              .
+
+<assign> ::= id "=" integer .

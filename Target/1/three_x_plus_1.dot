@@ -16,8 +16,26 @@ struct2->struct3
 struct8 [label=";"]
 struct2->struct8
 struct9 [label="stmtList"]
-struct10 [label="epsilon"]
+struct10 [label="stmt"]
+struct11 [label="assign"]
+struct12 [label="id"]
+struct13 [label="x"]
+struct12->struct13
+struct11->struct12
+struct14 [label="="]
+struct11->struct14
+struct15 [label="integer"]
+struct16 [label="1"]
+struct15->struct16
+struct11->struct15
+struct10->struct11
 struct9->struct10
+struct17 [label=";"]
+struct9->struct17
+struct18 [label="stmtList"]
+struct19 [label="epsilon"]
+struct18->struct19
+struct9->struct18
 struct2->struct9
 struct1->struct2
 }
