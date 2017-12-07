@@ -473,15 +473,7 @@ fun E(  itree(inode("expr", _),
             val result = Integer v2Int
         in
                 (result, m1)
-        end
-  (*| E(  itree(inode("factor", _), 
-                [
-                    expr1 (*integer | boolean | <ids>*)
-                ]
-             ),
-        m0
-    ) = E(expr1, m0) removed for now because duplicate*)
-    
+        end    
   | E(  itree(inode("integer", _), 
                 [
                     value
@@ -489,7 +481,6 @@ fun E(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            (*val v1 = Integer 1 need to do some more work*)
             val intString = getLeaf(value)
             val v1Int = valOf(Int.fromString(intString))
             val v1 = Integer v1Int
@@ -810,8 +801,22 @@ fun M(  itree(inode("prog",_),
         m0
     ) = let
             val (v1,m1) = E( expr, m0 )
-            val v1Int = getInt v1
-            val v1String = Int.toString(v1Int)
+            val v1Type = getTypeOfVal v1
+            val v1String = 
+                if v1Type = "INT" then
+                    let
+                        val v1Int = getInt v1
+                        val v1String0 = Int.toString(v1Int)
+                    in
+                        v1String0
+                    end
+                 else
+                    let
+                        val v1Bool = getBool v1
+                        val v1String1 = Bool.toString(v1Bool)
+                    in
+                        v1String1
+                    end
         in
           (
             print("\n print = " ^ v1String);
