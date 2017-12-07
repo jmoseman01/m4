@@ -49,16 +49,10 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val (v1, m1) = typeOf (disjunction1, m0)
+            val t1 = typeOf(disjunction1,m)
+            val t2 = typeOf(conjunction1,m)
         in
-            if (v1 = (Boolean true)) then
-                (v1, m1)
-            else  	
-                let 
-                      val (v2, m2) = typeOf(conjunction1, m1)
-                in
-                (v2, m2)
-                end
+            if t1=t2 andalso t1=BOOL then BOOL else ERROR
         end
   | typeOf(  itree(inode("conjunction", _), 
                 [
@@ -69,15 +63,10 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-        val (v1, m1) = typeOf (conjunction1, m0)
+            val t1 = typeOf(conjunction1,m)
+            val t2 = typeOf(equalitytest1,m)
         in
-            if (v1 = (Boolean true)) then
-                let 
-                        val (v2, m2) = typeOf (equalitytest1, m1)
-                in
-                    (v2, m2)
-                end
-            else (v1, m1)
+            if t1=t2 andalso t1=BOOL then BOOL else ERROR
         end
         
   | typeOf(  itree(inode("addsub", _),
@@ -95,15 +84,11 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val (v1, m1) = typeOf(equalitytest1, m0)
-            val (v2, m2) = typeOf(addsub1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val result = if (v1Int < v2Int) then Boolean true (*compare v1 < v2*)
-                         else Boolean false
+    ) = let 
+            val t1 = typeOf(equalitytest1,m)
+            val t2 = typeOf(addsub1,m)
         in
-                (result, m2)
+            if t1=t2 andalso t1=INT then BOOL else ERROR
         end
   | typeOf(  itree(inode("equalitytest", _), 
                 [
@@ -113,15 +98,11 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val(v1, m1) = typeOf(equalitytest1, m0)
-            val(v2, m2) = typeOf(addsub1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val result = if (v1Int > v2Int) then Boolean true (*compare v1 > v2*)
-                         else Boolean false
+    ) = let 
+            val t1 = typeOf(equalitytest1,m)
+            val t2 = typeOf(addsub1,m)
         in
-                (result, m2)
+            if t1=t2 andalso t1=INT then BOOL else ERROR
         end
   | typeOf(  itree(inode("equalitytest", _), 
                 [
@@ -131,15 +112,11 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val(v1, m1) = typeOf(equalitytest1, m0)
-            val(v2, m2) = typeOf(addsub1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val result = if (v1Int <= v2Int) then Boolean true (*compare v1 <= v2*)
-                         else Boolean false
+    ) = let 
+            val t1 = typeOf(equalitytest1,m)
+            val t2 = typeOf(addsub1,m)
         in
-                (result, m2)
+            if t1=t2 andalso t1=INT then BOOL else ERROR
         end
   | typeOf(  itree(inode("equalitytest", _), 
                 [
@@ -149,15 +126,11 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val(v1, m1) = typeOf(equalitytest1, m0)
-            val(v2, m2) = typeOf(addsub1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val result = if (v1Int >= v2Int) then Boolean true (*compare v1 >= v2*)
-                         else Boolean false
+    ) = let 
+            val t1 = typeOf(equalitytest1,m)
+            val t2 = typeOf(addsub1,m)
         in
-                (result, m2)
+            if t1=t2 andalso t1=INT then BOOL else ERROR
         end
   | typeOf(  itree(inode("equalitytest", _), 
                 [
@@ -167,15 +140,11 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val(v1, m1) = typeOf(equalitytest1, m0)
-            val(v2, m2) = typeOf(addsub1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val result = if (v1Int = v2Int) then Boolean true (*compare v1 == v2*)
-                         else Boolean false
+    ) = let 
+            val t1 = typeOf(equalitytest1,m)
+            val t2 = typeOf(addsub1,m)
         in
-                (result, m2)
+            if t1=t2 andalso t1<>ERROR then BOOL else ERROR
         end
   | typeOf(  itree(inode("equalitytest", _), 
                 [
@@ -185,15 +154,11 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val(v1, m1) = typeOf(equalitytest1, m0)
-            val(v2, m2) = typeOf(addsub1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val result = if (v1Int <> v2Int) then Boolean true (*compare v1 != v2*)
-                         else Boolean false
+    ) = let 
+            val t1 = typeOf(equalitytest1,m)
+            val t2 = typeOf(addsub1,m)
         in
-                (result, m2)
+            if t1=t2 andalso t1<>ERROR then BOOL else ERROR
         end
         
   | typeOf(  itree(inode("multdivmod", _),
@@ -211,15 +176,11 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val(v1, m1) = typeOf(addsub1, m0)
-            val(v2, m2) = typeOf(multdivmod1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val v3Int = v1Int + v2Int;
-            val result = Integer v3Int (*compute v1 + v2*)
+    ) = let 
+            val t1 = typeOf(addsub1,m)
+            val t2 = typeOf(multdivmod1,m)
         in
-                (result, m2)
+            if t1=t2 andalso t1=INT then INT else ERROR
         end
    
   | typeOf(  itree(inode("addsub", _), 
@@ -231,15 +192,12 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val(v1, m1) = typeOf(addsub1, m0)
-            val(v2, m2) = typeOf(multdivmod1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val v3Int = v1Int - v2Int;
-            val result = Integer v3Int (*compute v1 - v2*)
-        in
-                (result, m2)
-        end
+		val t1 = typeOf(addsub1, m)
+		val t2 = typeOf(multdivmod1, m)
+	in
+		if t1 = t2 andalso t1 = INT then INT else ERROR
+        end 
+
         
   | typeOf(  itree(inode("unaryminus", _),
                 [
@@ -257,15 +215,12 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val(v1, m1) = typeOf(multdivmod1, m0)
-            val(v2, m2) = typeOf(unaryminus1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val v3Int = v1Int * v2Int;
-            val result = Integer v3Int (*compute v1 * v2*)
-        in
-                (result, m2)
+		val t1 = typeOf(multdivmod1, m)
+		val t2 = typeOf(unaryminus1, m)
+	in
+		if t1 = t2 andalso t1 = INT then INT else ERROR
         end
+
   | typeOf(  itree(inode("multdivmod", _), 
                 [
                     multdivmod1,
@@ -275,15 +230,12 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val(v1, m1) = typeOf(multdivmod1, m0)
-            val(v2, m2) = typeOf(unaryminus1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val v3Int = v1Int div v2Int;
-            val result = Integer v3Int (*compute v1 div v2*)
-        in
-                (result, m2)
-        end
+		val t1 = typeOf(multdivmod1, m)
+		val t2 = typeOf(unaryminus1, m)
+	in
+		if t1 = t2 andalso t1 = INT then INT else ERROR
+        end 
+
     | typeOf(  itree(inode("multdivmod", _), 
                 [
                     multdivmod1,
@@ -293,15 +245,12 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val(v1, m1) = typeOf(multdivmod1, m0)
-            val(v2, m2) = typeOf(unaryminus1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val v3Int = v1Int mod v2Int;
-            val result = Integer v3Int (*compute v1 mod v2*)
-        in
-                (result, m2)
-        end
+		val t1 = typeOf(multdivmod1, m)
+		val t2 = typeOf(unaryminus1, m)
+	in
+		if t1 = t2 andalso t1 = INT then INT else ERROR
+        end 
+
         
   | typeOf(  itree(inode("exponent", _),
                 [
@@ -318,13 +267,11 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val(v1, m1) = typeOf(unaryminus1, m0)
-            val v1Int = getInt v1;
-            val v2Int = ~v1Int;
-            val result = Integer v2Int (*compute ~v1*)
-        in
-                (result, m1)
-        end
+		val t1 = typeOf(unaryminus1, m)
+	in
+		if t1 = INT then INT else ERROR
+	end
+
         
   | typeOf(  itree(inode("notexpr", _),
                 [
@@ -342,15 +289,12 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val (v1, m1) = typeOf(notexpr1, m0)
-            val (v2, m2) = typeOf(exponent1, m1)
-            val v1Int = getInt v1;
-            val v2Int = getInt v2;
-            val v3Int = mypower(v1Int, v2Int);
-            val result = Integer v3Int (*compute v1 power v2*)
-        in
-                (result, m2)
-        end
+		val t1 = typeOf(notexpr1, m)
+		val t2 = typeOf(exponent1, m)
+	in
+		if t1 = t2 andalso t1 = INT then INT else ERROR
+        end 
+
         
    | typeOf(  itree(inode("factor", _),
                 [
@@ -358,11 +302,7 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val label = getLabel(factor)
-        in
-            typeOf (factor, m0)
-        end
+    ) = typeOf(factor, m0)
     
   | typeOf(  itree(inode("notexpr", _), 
                 [
@@ -371,14 +311,12 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val (v1, m1) = typeOf(notexpr1, m0)
-            val v1Bool = getBool v1;
-            val v2Bool = not(v1Bool);
-            val result = Boolean v2Bool (*compute !v1*)
-        in
-                (result, m1)
-        end
+    ) = let 
+		val t1 = typeOf(notexpr1, m)
+	in
+		if t1 = BOOL then BOOL else ERROR
+	end 
+
         
     | typeOf(  itree(inode("factor", _), 
                 [
@@ -388,11 +326,7 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val (v1, m1) = typeOf(expr1, m0)
-        in
-                (v1, m1)
-        end
+    ) = typeOf(expr1)
     | typeOf(  itree(inode("factor", _), 
                 [
                     itree(inode("|",_), [] ),
@@ -401,21 +335,7 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            val (v1, m1) = typeOf(expr1, m0)
-            val v1Int = getInt v1;
-            val v2Int = if (v1Int > 0) then v1Int else ~v1Int 
-            val result = Integer v2Int
-        in
-                (result, m1)
-        end
-  (*| typeOf(  itree(inode("factor", _), 
-                [
-                    expr1 (*integer | boolean | <ids>*)
-                ]
-             ),
-        m0
-    ) = typeOf(expr1, m0) removed for now because duplicate*)
+    ) = typeOf(expr1)
     
   | typeOf(  itree(inode("integer", _), 
                 [
@@ -423,42 +343,21 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = let
-            (*val v1 = Integer 1 need to do some more work*)
-            val intString = getLeaf(value)
-            val v1Int = valOf(Int.fromString(intString))
-            val v1 = Integer v1Int
-        in
-            (v1, m0)
-        end
+    ) = INT
   | typeOf(  itree(inode("boolean", _), 
                 [
                     value
                 ]
              ),
         m0
-    ) = let
-            val boolString = getLeaf(value)
-            val v1Bool = valOf(Bool.fromString(boolString))
-            val v1 = Boolean v1Bool
-        in
-            (v1, m0)
-        end
+    ) = BOOL
   | typeOf(  itree(inode("ids", _), 
                 [
                     id (*identifier*)
                 ]
              ),
         m0
-    ) = 
-        let
-          val varname = getLeaf(id)
-          val loc0 = getLoc(accessEnv(varname, m0))
-          val v = accessStore(loc0, m0)
-          val label = getLabel(id)
-        in
-            (v, m0)
-        end
+    ) = getType(accessEnv(getLeaf(id),m))
            
  | typeOf(  itree(inode("ids", _),
                 [
@@ -468,16 +367,11 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val varname = getLeaf(id)
-            val loc0 = getLoc(accessEnv(varname, m0))
-            val v = accessStore(loc0, m0)
-            val vInt = getInt v
-            val v0 = vInt+1 (*v + 1 need some more work*)
-            val v1 = Integer v0
-            val m1 = updateStore( (loc0, v1) , m0 )
-        in
-            (v, m1)
-        end
+		val t1 = typeOf(id, m) 
+	in
+		if t1 = INT then INT else ERROR
+	end
+
  | typeOf(  itree(inode("ids", _), 
                 [
                     itree(inode("++",_), [] ),
@@ -486,16 +380,11 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val varname = getLeaf(id)
-            val loc0 = getLoc(accessEnv(varname, m0))
-            val v = accessStore(loc0, m0)
-            val vInt = getInt v
-            val v0 = vInt+1 (*v + 1 need some more work*)
-            val v1 = Integer v0
-            val m1 = updateStore( (loc0, v1) , m0 )
-        in
-            (v1, m1)
-        end
+		val t1 = typeOf(id, m) 
+	in
+		if t1 = INT then INT else ERROR
+	end
+
         
  | typeOf(  itree(inode("ids", _), 
                 [
@@ -505,16 +394,11 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val varname = getLeaf(id)
-            val loc0 = getLoc(accessEnv(varname, m0))
-            val v = accessStore(loc0, m0)
-            val vInt = getInt v
-            val v0 = vInt-1 (*v - 1 need some more work*)
-            val v1 = Integer v0
-            val m1 = updateStore( (loc0, v1) , m0 )
-        in
-            (v, m1)
-        end
+		val t1 = typeOf(id, m) 
+	in
+		if t1 = INT then INT else ERROR
+	end
+
  | typeOf(  itree(inode("ids", _),
                 [
                     itree(inode("--",_), [] ),
@@ -523,18 +407,14 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-            val varname = getLeaf(id)
-            val loc0 = getLoc(accessEnv(varname, m0))
-            val v = accessStore(loc0, m0)
-            val vInt = getInt v
-            val v0 = vInt-1 (*v - 1 need some more work*)
-            val v1 = Integer v0
-            val m1 = updateStore( (loc0, v1) , m0 )
-        in
-            (v1, m1)
-        end
-  | E(  itree(inode(x_root,_), children),_) = raise General.Fail("\n\nIn typeOf root = " ^ x_root ^ "\n\n")
-  | E _ = raise Fail("error in typeCheck.typeOf - this should never occur")
+		val t1 = typeOf(id, m) 
+	in
+		if t1 = INT then INT else ERROR
+	end
+
+  | typeOf(  itree(inode(x_root,_), children),_) = raise General.Fail("\n\nIn typeOf root = " ^ x_root ^ "\n\n")
+  | typeOf _ = raise Fail("error in typeCheck.typeOf - this should never occur")
+
 
 
 (*==========================================statement==========================================*)
