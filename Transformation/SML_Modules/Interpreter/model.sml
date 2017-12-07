@@ -1,3 +1,5 @@
+exception runtime_error;
+fun error msg = ( print msg; raise runtime_error );
 (* =========================================================================================================== *)
 structure Model =
 
@@ -76,9 +78,15 @@ fun printModel([],addressCounter,[])=()
     print("==============\n")
 
 );
+
+fun checkForDuplicateId(id,[])=false
+| checkForDuplicateId(idinp,(idenv,t,addressCounter)::env)=idinp=idenv orelse checkForDuplicateId(idinp,env);
 (********** Update Env **********)
-fun updateEnv( id,t,(env,addressCounter,s) ) = ((id,t,addressCounter)::env,addressCounter+1,s)
-      
+fun updateEnv( id,t,(env,addressCounter,s) ) = 
+    (
+         if checkForDuplicateId(id,env) then error("duplicate identifier") else ();
+        ((id,t,addressCounter)::env,addressCounter+1,s)
+    ); 
 
 (********** Access Env **********)
 fun accessEnv(id,([], accessCounter:loc,s)) = ("error", INT, 1)
