@@ -369,7 +369,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = getType(accessEnv(getLeaf(id),m0))
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -382,7 +382,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = getType(accessEnv(getLeaf(id),m0))
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -396,7 +396,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = getType(accessEnv(getLeaf(id),m0)) 
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -409,7 +409,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = getType(accessEnv(getLeaf(id),m0))
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
