@@ -11,8 +11,11 @@ prog
 <epsilon>  ::= .
 
 <stmt> ::= <dec>  
-         | <assign>                                        .
+         | <assign>  
+         | <block>  .
 
 <dec> ::= "int" id                                              .
 
 <assign> ::= id "=" integer .
+
+<block> ::= "{" <stmtList> "}" .

@@ -98,6 +98,15 @@ fun M(  itree(inode("prog",_),
             ),
         m       
     ) = M(dec, m)
+  | M( itree(inode("block",_),
+                [
+                    itree(inode("{",_), [] ),                 
+                    stmtList,
+                    itree(inode("}",_), [] )               
+                ]
+            ),
+        m       
+    ) = M(stmtList, m)
   | M( itree(inode("dec",_),
                 [
                     itree(inode("int",_), [] ),                 
