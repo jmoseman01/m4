@@ -46,26 +46,39 @@ else ""
 fun stringDv(Boolean dv)=Bool.toString(dv)
 | stringDv(Integer dv)=Int.toString(dv)
 
-fun printModel(_,addressCounter,[])=() 
-| printModel([],addressCounter,_)=() 
-| printModel((envr as (id1,t1:types,loc1:loc))::env,addressCounter,(storer as (loc2:loc,v1:denotable_value))::store)=
+fun printEnv([])=() 
+| printEnv((id1,t1:types,loc1:loc)::env)=
+(
+
+    print(id1 ^ "\t" ^ typeToString(t1) ^ "\t" ^  Int.toString(loc1) ^ "\n");
+    printEnv(env)
+);
+
+fun printStore([])=()
+| printStore((loc2:loc,v1:denotable_value)::store)=
+(
+    
+    print(Int.toString(loc2) ^ "\t" ^ stringDv(v1) ^ "\n");
+    printStore(store)
+);
+
+fun printModel([],addressCounter,[])=() 
+| printModel(env,addressCounter, store)=
 (
     print("Address Counter:\t"^Int.toString(addressCounter)^"\n");
     print("ENV\n");
     print("==============\n");
-    print(id1 ^ "\t" ^ typeToString(t1) ^ "\t" ^  Int.toString(loc1) ^ "\n");
+    printEnv(env);
     print("==============\n");
     print("Store\n");
     print("==============\n");
-    print(Int.toString(loc2) ^ "\t" ^ stringDv(v1) ^ "\n");
+    printStore(store);
     print("==============\n")
+
 );
 (********** Update Env **********)
-fun updateEnv( id,t,(env,addressCounter,s) ) = 
-      (
-      print ("\n id = " ^ id);
-        ((id,t,addressCounter)::env,addressCounter+1,s)
-      );
+fun updateEnv( id,t,(env,addressCounter,s) ) = ((id,t,addressCounter)::env,addressCounter+1,s)
+      
 
 (********** Access Env **********)
 fun accessEnv(id,([], accessCounter:loc,s)) = ("error", INT, 1)
