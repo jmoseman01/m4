@@ -14,7 +14,8 @@ prog
          | <assign>  
          | <block>  .
 
-<dec> ::= "int" id                                              .
+<dec> ::= "int" id   
+         | "bool" id                                           .
 
 <assign> ::= id "=" integer .
 

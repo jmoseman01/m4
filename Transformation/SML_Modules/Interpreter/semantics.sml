@@ -117,6 +117,14 @@ fun M(  itree(inode("prog",_),
             ),
         m       
     ) = updateEnv( getLeaf(id), INT, m )
+    | M( itree(inode("dec",_),
+                [      
+                    itree(inode("bool",_), [] ),
+                    id
+                ]
+            ),
+        m       
+    ) = updateEnv( getLeaf(id), BOOL, m )
     
     | M( itree(inode("assign",_),
                 [
