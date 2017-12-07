@@ -13,6 +13,10 @@ open CONCRETE_REPRESENTATION;
     expression notation we used in M2 to the actual SML tree patterns used in the TL System. See the comments in
     the semantics.sml file for a more detailed discussion on this topic. 
 *)
+
+fun getLabel (itree(inode(label,_), inf)) = label
+  | getLabel _ = raise Fail("error - this should never occur")
+
 (*==========================================expression==========================================*)
 fun typeOf(  itree(inode("expr", _), 
                 [
@@ -382,7 +386,9 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = getType(accessEnv(getLeaf(id),m0))
+                val varname = getLeaf(id)
+                val env1 = accessEnv(varname,m0)
+		val t1 = getType(env1)
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -488,7 +494,22 @@ fun typeCheck(  itree(inode("prog",_),
                 ]
             ),
         m
-    ) = typeCheck (increment, m)
+    ) = let
+            val label = getLabel(increment)
+        in
+            if (label = "assign") then
+                let
+                    val m1 = typeCheck (increment, m)
+                in
+                    m1
+                end
+            else 
+                let
+                    val t1 = typeOf (increment, m)
+                in
+                    m
+                end
+        end
   | typeCheck( itree(inode("block",_),
                 [
                     itree(inode("{",_), [] ),
