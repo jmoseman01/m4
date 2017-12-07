@@ -56,6 +56,9 @@ fun accessEnv(id,([], lo, s)) = ("error", INT, 1)
 (********** Get Location **********)
 fun getLoc (id, t, lo) = lo;
 
+(********** Get Type **********)
+fun getType (id, t, lo) = t;
+
 (********** Update Store - beginning **********)
 fun update(tuple, []) = [tuple]
 | update(tuple2 as (loc2, v2), (tuple1 as (loc1, v1))::s) = 
