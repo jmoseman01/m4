@@ -594,32 +594,19 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m       
     ) = 
-        let
-            val varname = getLeaf(id)
-            val env1 = accessEnv (varname, m)
-            val loc1 = getLoc env1
-            val (v1, m1) = typeOf(expr0, m)
-        in
-            updateStore((loc1, v1 ), m1)
-        end     
+        let 
+		val t1 = typeOf(expr0,m)
+		val t2 = getType(accessEnv(id,m))
+	in
+		if t1 = t2 then m else raise model_error
+	end    
   | typeCheck( itree(inode("increment",_),
                 [
                     increment
                 ]
             ),
         m
-    ) = let
-            val label = getLabel(increment)
-        in
-            if (label = "assign") then
-                typeCheck (increment, m)
-            else 
-                let
-                    val (v, m1) = typeOf (increment, m)
-                in
-                    m1
-                end
-        end
+    ) = typeCheck (increment, m)
   | typeCheck( itree(inode("block",_),
                 [
                     itree(inode("{",_), [] ),
@@ -627,13 +614,12 @@ fun typeCheck(  itree(inode("prog",_),
                     itree(inode("}",_), [] )
                 ]
             ),
-        m0 as (env0, loc0, s0)
+        m0
     ) = let
-            val (env1,loc1, s1) = typeCheck( stmtList, (env0, loc0, s0) )
-            val m2 = (env0,loc0, s1)	
-        in
-                m2
-        end
+  		val m1 = typeCheck(stmtList1,m0)
+  	in
+  		m0
+  	end
   | typeCheck( itree(inode("conditional",_),
                 [
                     itree(inode("if",_), [] ),
@@ -644,10 +630,12 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m0
     ) = let
-            val (v1,m1) = typeOf( expr, m0 )
-        in
-            if (v1 = (Boolean true)) then typeCheck( block, m1) else m1
-        end
+		val t = typeOf(expr1)
+		val m1=typeCheck(block1,m0)
+	in
+		if t = BOOL then m0 else raise model_error
+	end
+
   | typeCheck( itree(inode("conditional",_),
                 [
                     itree(inode("if",_), [] ),
@@ -660,10 +648,13 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m0
     ) = let
-            val (v1,m1) = typeOf( expr, m0 )
-        in
-            if (v1 = (Boolean true)) then typeCheck( block1, m1) else typeCheck( block2, m1)
-        end
+		val t = typeOf(expr)
+		val m1=typeCheck(block1,m0)
+		val m2=typeCheck(block2,m0)
+	in
+		if t = BOOL then m0 else raise model_error
+	end
+
   | typeCheck( itree(inode("whileLoop",_),
                 [
                     itree(inode("while",_), [] ),
@@ -675,22 +666,12 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m0
     ) = let
-            fun N (expr1, block1, m0 ) =
-                let
-                      val (v,m1) = typeOf( expr1, m0 )
-                in
-                if (v = (Boolean true)) then
-                      let
-                              val m2 = typeCheck( block1, m1 )
-                              val m3 = N( expr1, block1, m2 )
-                      in
-                              m3
-                      end
-                else m1
-                end
-        in
-            N (expr, block, m0)
-        end
+		val t = typeOf(expr)
+		val m1=typeCheck(block,m0)
+	in
+		if t = BOOL then m0 else raise model_error
+	end
+
   (*<forLoop> ::= "for" "(" <assign> ";" <expr> ";" <increment> ")" <block> .*)
   | typeCheck( itree(inode("forLoop",_),
                 [
@@ -707,30 +688,14 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m
     ) = let
-            fun P(assign1, expr1, increment1, block1, m0 ) =
-                let
-                    val m1 = typeCheck( assign1, m0 )
-                    
-                    fun Q(expr2, increment2, block2, m2 ) =
-                    let
-                          val (v,m3) = typeOf( expr2, m2 )
-                    in
-                        if (v = (Boolean true)) then
-                               let
-                                    val m4 = typeCheck( block2, m3 )
-                                    val m5 = typeCheck( increment2, m4 )
-                                    val m6 = Q( expr2, increment2, block2, m5 )
-                               in
-                                  m6
-                               end
-                        else m3
-                    end
-                in
-                        Q(expr1, increment1, block1, m1 )
-                end
+                val t=typeOf(expr)
+                val m1=typeCheck(assign1,m)
+                val m2=typeCheck(increment1,m)
+                val m3=typeCheck(block1,m)
         in
-            P (assign, expr, increment, block, m)
+                if t = BOOL then m else raise model_error
         end
+
   | typeCheck( itree(inode("printStmt",_),
                 [
                     itree(inode("print",_), [] ),
@@ -741,15 +706,11 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m0
     ) = let
-            val (v1,m1) = typeOf( expr, m0 )
-            val v1Int = getInt v1
-            val v1String = Int.toString(v1Int)
+            val t = typeOf(expr,m)
         in
-          (
-            print("\n print = " ^ v1String);
-            m1
-          )
+            if t != ERROR  then m0 else raise model_error			(!= means different here)
         end
+
   | typeCheck( itree(inode(x_root,_), children),_) = raise General.Fail("\n\nIn typeCheck root = " ^ x_root ^ "\n\n")
   | typeCheck _ = raise Fail("Error in Model.typeCheck - this should never occur")
 
