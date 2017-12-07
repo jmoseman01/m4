@@ -35,7 +35,7 @@ fun execute [ programTree ] =
         (* you may want to output the final model in order to validate that there are no memory leaks in your code *)
                 
         print("\n\n\n");
-        print(" =================Johary====================== \n");
+        print(" ======================================= \n");
         Model.printModel(result);
         print("\n ======================================= \n");
         print("\n\n\n") 

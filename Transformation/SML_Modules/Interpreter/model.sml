@@ -71,6 +71,40 @@ in
 end;
 (********** Update Store - end **********)
 
+fun stringDv(Boolean dv)=Bool.toString(dv)
+| stringDv(Integer dv)=Int.toString(dv)
+
+fun printEnv([])=() 
+| printEnv((id1,t1:types,loc1:loc)::env)=
+(
+
+    print(id1 ^ "\t" ^ typeToString(t1) ^ "\t" ^  Int.toString(loc1) ^ "\n");
+    printEnv(env)
+);
+
+fun printStore([])=()
+| printStore((loc2:loc,v1:denotable_value)::store)=
+(
+    
+    print(Int.toString(loc2) ^ "\t" ^ stringDv(v1) ^ "\n");
+    printStore(store)
+);
+
+fun printModel([],addressCounter,[])=() 
+| printModel(env,addressCounter, store)=
+(
+    print("Address Counter:\t"^Int.toString(addressCounter)^"\n");
+    print("ENV\n");
+    print("==============\n");
+    printEnv(env);
+    print("==============\n");
+    print("Store\n");
+    print("==============\n");
+    printStore(store);
+    print("==============\n")
+
+);
+
 (********** Access Store **********)
 fun accessStore(lo,(e, lo1, [])) = Integer 1
 | accessStore(lo,(e, lo1, (loc1, v1)::s)) = 
