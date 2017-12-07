@@ -1,4 +1,6 @@
 (* =========================================================================================================== *)
+exception runtime_error;
+fun error msg = ( print msg; raise runtime_error );
 structure TypeChecker =
 struct
 
@@ -49,8 +51,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(disjunction1,m)
-            val t2 = typeOf(conjunction1,m)
+            val t1 = typeOf(disjunction1,m0)
+            val t2 = typeOf(conjunction1,m0)
         in
             if t1=t2 andalso t1=BOOL then BOOL else ERROR
         end
@@ -63,8 +65,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(conjunction1,m)
-            val t2 = typeOf(equalitytest1,m)
+            val t1 = typeOf(conjunction1,m0)
+            val t2 = typeOf(equalitytest1,m0)
         in
             if t1=t2 andalso t1=BOOL then BOOL else ERROR
         end
@@ -85,8 +87,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(equalitytest1,m)
-            val t2 = typeOf(addsub1,m)
+            val t1 = typeOf(equalitytest1,m0)
+            val t2 = typeOf(addsub1,m0)
         in
             if t1=t2 andalso t1=INT then BOOL else ERROR
         end
@@ -99,8 +101,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(equalitytest1,m)
-            val t2 = typeOf(addsub1,m)
+            val t1 = typeOf(equalitytest1,m0)
+            val t2 = typeOf(addsub1,m0)
         in
             if t1=t2 andalso t1=INT then BOOL else ERROR
         end
@@ -113,8 +115,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(equalitytest1,m)
-            val t2 = typeOf(addsub1,m)
+            val t1 = typeOf(equalitytest1,m0)
+            val t2 = typeOf(addsub1,m0)
         in
             if t1=t2 andalso t1=INT then BOOL else ERROR
         end
@@ -127,8 +129,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(equalitytest1,m)
-            val t2 = typeOf(addsub1,m)
+            val t1 = typeOf(equalitytest1,m0)
+            val t2 = typeOf(addsub1,m0)
         in
             if t1=t2 andalso t1=INT then BOOL else ERROR
         end
@@ -141,8 +143,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(equalitytest1,m)
-            val t2 = typeOf(addsub1,m)
+            val t1 = typeOf(equalitytest1,m0)
+            val t2 = typeOf(addsub1,m0)
         in
             if t1=t2 andalso t1<>ERROR then BOOL else ERROR
         end
@@ -155,8 +157,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(equalitytest1,m)
-            val t2 = typeOf(addsub1,m)
+            val t1 = typeOf(equalitytest1,m0)
+            val t2 = typeOf(addsub1,m0)
         in
             if t1=t2 andalso t1<>ERROR then BOOL else ERROR
         end
@@ -177,8 +179,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-            val t1 = typeOf(addsub1,m)
-            val t2 = typeOf(multdivmod1,m)
+            val t1 = typeOf(addsub1,m0)
+            val t2 = typeOf(multdivmod1,m0)
         in
             if t1=t2 andalso t1=INT then INT else ERROR
         end
@@ -192,8 +194,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(addsub1, m)
-		val t2 = typeOf(multdivmod1, m)
+		val t1 = typeOf(addsub1, m0)
+		val t2 = typeOf(multdivmod1, m0)
 	in
 		if t1 = t2 andalso t1 = INT then INT else ERROR
         end 
@@ -215,8 +217,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(multdivmod1, m)
-		val t2 = typeOf(unaryminus1, m)
+		val t1 = typeOf(multdivmod1, m0)
+		val t2 = typeOf(unaryminus1, m0)
 	in
 		if t1 = t2 andalso t1 = INT then INT else ERROR
         end
@@ -230,8 +232,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(multdivmod1, m)
-		val t2 = typeOf(unaryminus1, m)
+		val t1 = typeOf(multdivmod1, m0)
+		val t2 = typeOf(unaryminus1, m0)
 	in
 		if t1 = t2 andalso t1 = INT then INT else ERROR
         end 
@@ -245,8 +247,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(multdivmod1, m)
-		val t2 = typeOf(unaryminus1, m)
+		val t1 = typeOf(multdivmod1, m0)
+		val t2 = typeOf(unaryminus1, m0)
 	in
 		if t1 = t2 andalso t1 = INT then INT else ERROR
         end 
@@ -267,7 +269,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(unaryminus1, m)
+		val t1 = typeOf(unaryminus1, m0)
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -289,8 +291,8 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(notexpr1, m)
-		val t2 = typeOf(exponent1, m)
+		val t1 = typeOf(notexpr1, m0)
+		val t2 = typeOf(exponent1, m0)
 	in
 		if t1 = t2 andalso t1 = INT then INT else ERROR
         end 
@@ -312,7 +314,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let 
-		val t1 = typeOf(notexpr1, m)
+		val t1 = typeOf(notexpr1, m0)
 	in
 		if t1 = BOOL then BOOL else ERROR
 	end 
@@ -326,7 +328,7 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = typeOf(expr1)
+    ) = typeOf(expr1,m0)
     | typeOf(  itree(inode("factor", _), 
                 [
                     itree(inode("|",_), [] ),
@@ -335,7 +337,7 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = typeOf(expr1)
+    ) = typeOf(expr1,m0)
     
   | typeOf(  itree(inode("integer", _), 
                 [
@@ -357,7 +359,7 @@ fun typeOf(  itree(inode("expr", _),
                 ]
              ),
         m0
-    ) = getType(accessEnv(getLeaf(id),m))
+    ) = getType(accessEnv(getLeaf(id),m0))
            
  | typeOf(  itree(inode("ids", _),
                 [
@@ -367,7 +369,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(id, m) 
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -380,7 +382,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(id, m) 
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -394,7 +396,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(id, m) 
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -407,7 +409,7 @@ fun typeOf(  itree(inode("expr", _),
              ),
         m0
     ) = let
-		val t1 = typeOf(id, m) 
+		val t1 = typeOf(id, m0) 
 	in
 		if t1 = INT then INT else ERROR
 	end
@@ -476,9 +478,9 @@ fun typeCheck(  itree(inode("prog",_),
     ) = 
         let 
 		val t1 = typeOf(expr0,m)
-		val t2 = getType(accessEnv(id,m))
+		val t2 = getType(accessEnv(getLeaf(id),m))
 	in
-		if t1 = t2 then m else raise model_error
+		if t1 = t2 then m else error "assign typecheck error"
 	end    
   | typeCheck( itree(inode("increment",_),
                 [
@@ -490,7 +492,7 @@ fun typeCheck(  itree(inode("prog",_),
   | typeCheck( itree(inode("block",_),
                 [
                     itree(inode("{",_), [] ),
-                    stmtList,                 
+                    stmtList1,                 
                     itree(inode("}",_), [] )
                 ]
             ),
@@ -503,17 +505,17 @@ fun typeCheck(  itree(inode("prog",_),
   | typeCheck( itree(inode("conditional",_),
                 [
                     itree(inode("if",_), [] ),
-                    expr,                 
+                    expr1,                 
                     itree(inode("then",_), [] ),
-                    block
+                    block1
                 ]
             ),
         m0
     ) = let
-		val t = typeOf(expr1)
+		val t = typeOf(expr1,m0)
 		val m1=typeCheck(block1,m0)
 	in
-		if t = BOOL then m0 else raise model_error
+		if t = BOOL then m0 else error "if then failed type check"
 	end
 
   | typeCheck( itree(inode("conditional",_),
@@ -528,11 +530,11 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m0
     ) = let
-		val t = typeOf(expr)
+		val t = typeOf(expr,m0)
 		val m1=typeCheck(block1,m0)
 		val m2=typeCheck(block2,m0)
 	in
-		if t = BOOL then m0 else raise model_error
+		if t = BOOL then m0 else error "if then else failed type check"
 	end
 
   | typeCheck( itree(inode("whileLoop",_),
@@ -546,10 +548,10 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m0
     ) = let
-		val t = typeOf(expr)
+		val t = typeOf(expr,m0)
 		val m1=typeCheck(block,m0)
 	in
-		if t = BOOL then m0 else raise model_error
+		if t = BOOL then m0 else error "while loop failed type check"
 	end
 
   (*<forLoop> ::= "for" "(" <assign> ";" <expr> ";" <increment> ")" <block> .*)
@@ -557,23 +559,23 @@ fun typeCheck(  itree(inode("prog",_),
                 [
                     itree(inode("for",_), [] ),
                     itree(inode("(",_), [] ),
-                    assign,
+                    assign1,
                     itree(inode(";",_), [] ),
                     expr,
                     itree(inode(";",_), [] ),
-                    increment,
+                    increment1,
                     itree(inode(")",_), [] ),
-                    block
+                    block1
                 ]
             ),
         m
     ) = let
-                val t=typeOf(expr)
+                val t=typeOf(expr,m)
                 val m1=typeCheck(assign1,m)
                 val m2=typeCheck(increment1,m)
                 val m3=typeCheck(block1,m)
         in
-                if t = BOOL then m else raise model_error
+                if t = BOOL then m else error "for loop failed type check"
         end
 
   | typeCheck( itree(inode("printStmt",_),
@@ -586,9 +588,9 @@ fun typeCheck(  itree(inode("prog",_),
             ),
         m0
     ) = let
-            val t = typeOf(expr,m)
+            val t = typeOf(expr,m0)
         in
-            if t != ERROR  then m0 else raise model_error			(!= means different here)
+            if t <> ERROR  then m0 else error "failed print type check"
         end
 
   | typeCheck( itree(inode(x_root,_), children),_) = raise General.Fail("\n\nIn typeCheck root = " ^ x_root ^ "\n\n")
