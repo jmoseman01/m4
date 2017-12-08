@@ -11,12 +11,12 @@ program
 <epsilon>  ::= .
 
 <stmt> ::= <dec> 
-        | <assign>
         | <block> 
         | <conditional> 
         | <whileLoop> 
         | <forLoop>
-        | <printStmt>                                           .
+        | <printStmt>
+        | <increment>                                                .
 
 <dec> ::= "int" id 
       |  "bool" id                                              .

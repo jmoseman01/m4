@@ -1,4 +1,6 @@
 (* =========================================================================================================== *)
+exception runtime_error;
+fun error msg = ( print msg; raise runtime_error );
 structure Model =
 
 struct 
@@ -49,7 +51,7 @@ fun updateEnv( id, t, (e, count, s) ) =
  ((id, t, count)::e, count+1, s);
 
 (********** Access Env **********)
-fun accessEnv(id,([], lo, s)) = ("error", INT, 1)
+fun accessEnv(id,([], lo, s)) = error "Error: Illegal env access"
 | accessEnv(id,((id1,t1,loc1)::es, lo, s)) = 
     if id = id1 then (id1, t1, loc1) else accessEnv (id, (es, lo, s));
 
@@ -109,7 +111,7 @@ fun printModel([],addressCounter,[])=()
 );
 
 (********** Access Store **********)
-fun accessStore(lo,(e, lo1, [])) = Integer 1
+fun accessStore(lo,(e, lo1, [])) = error "Error: Illegal store access"
 | accessStore(lo,(e, lo1, (loc1, v1)::s)) = 
     if lo = loc1 then v1 else accessStore (lo, (e, lo1, s));    
 
